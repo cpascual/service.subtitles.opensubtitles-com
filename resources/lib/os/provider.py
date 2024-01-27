@@ -1,13 +1,12 @@
 
-from typing import Union
+from __future__ import absolute_import
 
 from requests import Session, ConnectionError, HTTPError, ReadTimeout, Timeout, RequestException
 
 from resources.lib.os.model.request.subtitles import OpenSubtitlesSubtitlesRequest
 from resources.lib.os.model.request.download import OpenSubtitlesDownloadRequest
 
-u'''local kodi module imports. replace by any other exception, cache, log provider'''
-from __future__ import absolute_import
+'''local kodi module imports. replace by any other exception, cache, log provider'''
 from resources.lib.exceptions import AuthenticationError, ConfigurationError, DownloadLimitExceeded, ProviderError, \
     ServiceUnavailable, TooManyRequests, BadUsernameError
 from resources.lib.cache import Cache
@@ -94,7 +93,7 @@ class OpenSubtitlesProvider(object):
             logging(r.url)
             r.raise_for_status()
         except (ConnectionError, Timeout, ReadTimeout), e:
-            raise ServiceUnavailable("Unknown Error: %s: %s" % (e.response.status_code, e!r) )
+            raise ServiceUnavailable("Unknown Error: %s: %s" % (e.response.status_code, repr(e)) )
         except HTTPError, e:
             status_code = e.response.status_code
             if status_code == 401:
@@ -136,7 +135,7 @@ class OpenSubtitlesProvider(object):
             logging(r.request.headers)
             r.raise_for_status()
         except (ConnectionError, Timeout, ReadTimeout), e:
-            raise ServiceUnavailable("Unknown Error, empty response: %s: %s" % (e.status_code, e!r) )
+            raise ServiceUnavailable("Unknown Error, empty response: %s: %s" % (e.status_code, repr(e)) )
         except HTTPError, e:
             status_code = e.response.status_code
             if status_code == 429:
@@ -199,7 +198,7 @@ class OpenSubtitlesProvider(object):
 
         params = query_to_params(query, u"OpenSubtitlesDownloadRequest")
 
-        logging("Downloading subtitle %s " % (params['file_id']!r) )
+        logging("Downloading subtitle %s " % repr(params['file_id']) )
 
         # build download request
         download_url = API_URL + API_DOWNLOAD
@@ -214,7 +213,7 @@ class OpenSubtitlesProvider(object):
             logging(r.url)
             r.raise_for_status()
         except (ConnectionError, Timeout, ReadTimeout), e:
-            raise ServiceUnavailable("Unknown Error, empty response: %s: %s" % (e.status_code, e!r) )
+            raise ServiceUnavailable("Unknown Error, empty response: %s: %s" % (e.status_code, repr(e)) )
         except HTTPError, e:
             status_code = e.response.status_code
             if status_code == 401:
