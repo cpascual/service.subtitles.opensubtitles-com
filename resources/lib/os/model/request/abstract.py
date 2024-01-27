@@ -1,4 +1,5 @@
 
+from __future__ import absolute_import
 from resources.lib.utilities import log
 
 
@@ -6,7 +7,7 @@ def logging(msg):
     log(__name__, msg)
 
 
-class OpenSubtitlesRequest:
+class OpenSubtitlesRequest(object):
     def __init__(self):
         self._instance = True
 
@@ -15,9 +16,9 @@ class OpenSubtitlesRequest:
 
     def request_params(self):
         if not self._instance:
-            raise ReferenceError("Should pass params to the class by initiating it first.")
+            raise ReferenceError(u"Should pass params to the class by initiating it first.")
         request_params = {}
-        logging("DEFAULT_LIST: ")
+        logging(u"DEFAULT_LIST: ")
         logging(self.DEFAULT_LIST)
         for key, default_value in list(self.DEFAULT_LIST.items()):
             current_value = getattr(self, key)

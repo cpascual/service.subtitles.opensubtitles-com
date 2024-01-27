@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 
 from time import time
@@ -8,9 +9,9 @@ from resources.lib.utilities import log
 
 
 class Cache(object):
-    """Caches Python values as JSON."""
+    u"""Caches Python values as JSON."""
 
-    def __init__(self, key_prefix=""):
+    def __init__(self, key_prefix=u""):
         self.key_prefix = key_prefix
         self._win = xbmcgui.Window(10000)
 
@@ -38,8 +39,8 @@ class Cache(object):
 
         if cache_data_str:
             cache_data = json.loads(cache_data_str)
-            if cache_data["expires"] > time():
-                result = cache_data["value"]
+            if cache_data[u"expires"] > time():
+                result = cache_data[u"value"]
                 log(__name__, f"got {key} from cache")
 
         return result
