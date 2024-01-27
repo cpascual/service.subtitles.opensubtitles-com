@@ -78,7 +78,9 @@ class SubtitleDownloader(object):
                 media_data[u"query"] = file_data[u"basename"]
             log(__name__, u"media_data '%s' " % media_data)
 
-        self.query = set([**media_data, **file_data, **language_data])
+        self.query = dict(media_data)
+        self.query.update(file_data)
+        self.query.update(language_data)
 
         try:
             self.subtitles = self.open_subtitles.search_subtitles(self.query)
