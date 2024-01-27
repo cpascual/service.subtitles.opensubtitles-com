@@ -17,9 +17,9 @@ class Cache(object):
 
     def set(self, key, value, expires=60 * 60 * 24 * 7):
 
-        log(__name__, f"caching {key}")
+        log(__name__, "caching %s" % (key) )
         if self.key_prefix:
-            key = f"{self.key_prefix}:{key}"
+            key = "%s:%s" % (self.key_prefix, key) 
 
         expires += time()
 
@@ -29,11 +29,11 @@ class Cache(object):
 
     def get(self, key, default=None):
 
-        log(__name__, f"got request for {key} from cache")
+        log(__name__, "got request for %s from cache" % (key) )
         result = default
 
         if self.key_prefix:
-            key = f"{self.key_prefix}:{key}"
+            key = "%s:%s" % (self.key_prefix, key) 
 
         cache_data_str = self._win.getProperty(key)
 
@@ -41,6 +41,6 @@ class Cache(object):
             cache_data = json.loads(cache_data_str)
             if cache_data[u"expires"] > time():
                 result = cache_data[u"value"]
-                log(__name__, f"got {key} from cache")
+                log(__name__, "got %s from cache" % (key) )
 
         return result

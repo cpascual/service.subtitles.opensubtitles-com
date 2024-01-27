@@ -107,7 +107,7 @@ class SubtitleDownloader(object):
             error(__name__, 32214, e)
             valid = 0
         except DownloadLimitExceeded, e:
-            log(__name__, f"XYXYXX limit excedded, username: {self.username}  {e}")
+            log(__name__, "XYXYXX limit excedded, username: %s  %s" % (self.username, e) )
             if self.username==u"":
                 error(__name__, 32006, e)
             else:
@@ -117,7 +117,7 @@ class SubtitleDownloader(object):
             error(__name__, 32001, e)
             valid = 0
 
-        subtitle_path = os.path.join(__temp__, f"{str(uuid.uuid4())}.{self.sub_format}")
+        subtitle_path = os.path.join(__temp__, "%s.%s" % (str(uuid.uuid4()), self.sub_format) )
        
         if (valid==1):
             tmp_file = open(subtitle_path, u"w" + u"b")
@@ -157,7 +157,7 @@ class SubtitleDownloader(object):
                 list_item.setProperty(u"sync", u"true" if (u"moviehash_match" in attributes and attributes[u"moviehash_match"]) else u"false")
                 list_item.setProperty(u"hearing_imp", u"true" if attributes[u"hearing_impaired"] else u"false")
                 u"""TODO take care of multiple cds id&id or something"""
-                url = f"plugin://{__scriptid__}/?action=download&id={attributes['files'][0]['file_id']}"
+                url = "plugin://%s/?action=download&id=%s" % (__scriptid__, attributes['files'][0]['file_id']) 
 
                 xbmcplugin.addDirectoryItem(handle=self.handle, url=url, listitem=list_item, isFolder=False)
         xbmcplugin.endOfDirectory(self.handle)

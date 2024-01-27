@@ -80,7 +80,7 @@ def get_language_data(params):
     for language in search_languages:
         lang = convert_language(language)
         if lang:
-            log(__name__, f"Language  found: '{lang}' search_languages_str:'{search_languages_str}")
+            log(__name__, "Language  found: '%s' search_languages_str:'%s" % (lang, search_languages_str) )
             if search_languages_str==u"":
                 search_languages_str=lang
             else:
@@ -93,7 +93,7 @@ def get_language_data(params):
             #else:
 
         else:
-            log(__name__, f"Language code not found: '{language}'")
+            log(__name__, "Language code not found: '%s'" % (language) )
 
 
 
@@ -117,7 +117,7 @@ def get_language_data(params):
      #      #item["languages"].append(lang)
      #      item["languages"]=item["languages"]+","+lang
      #  else:
-     #      log(__name__, f"Language code not found: '{language}'")
+     #      log(__name__, "Language code not found: '%s'" % (language) )
 
     return item
 
@@ -166,10 +166,10 @@ def clean_feature_release_name(title, release, movie_name=u""):
         name = title
 
     match_ratio = SequenceMatcher(None, name, release).ratio()
-    log(__name__, f"name: {name}, release: {release}, match_ratio: {match_ratio}")
+    log(__name__, "name: %s, release: %s, match_ratio: %s" % (name, release, match_ratio) )
     if name in release:
         return release
     elif match_ratio > 0.3:
         return release
     else:
-        return f"{name} {release}"
+        return "%s %s" % (name, release) 

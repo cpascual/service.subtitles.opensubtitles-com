@@ -42,7 +42,7 @@ def query_to_params(query, _type):
         try:
             request = class_lookup[_type](**query)
         except ValueError, e:
-            raise ValueError(f"Invalid request data provided: {e}")
+            raise ValueError("Invalid request data provided: %s" % (e) )
     elif type(query) is _type:
         request = query
     else:
@@ -71,7 +71,7 @@ class OpenSubtitlesProvider(object):
         self.password = password
 
         if not self.username or not self.password:
-            logging(f"Username: {self.username}, Password: {self.password}")
+            logging("Username: %s, Password: %s" % (self.username, self.password) )
 
 
         self.request_headers = {u"Api-Key": self.api_key, u"User-Agent": u"Opensubtitles.com Kodi plugin v1.0.4" ,u"Content-Type": CONTENT_TYPE, u"Accept": CONTENT_TYPE}
@@ -94,19 +94,19 @@ class OpenSubtitlesProvider(object):
             logging(r.url)
             r.raise_for_status()
         except (ConnectionError, Timeout, ReadTimeout), e:
-            raise ServiceUnavailable(f"Unknown Error: {e.response.status_code}: {e!r}")
+            raise ServiceUnavailable("Unknown Error: %s: %s" % (e.response.status_code, e!r) )
         except HTTPError, e:
             status_code = e.response.status_code
             if status_code == 401:
-                raise AuthenticationError(f"Login failed: {e}")
+                raise AuthenticationError("Login failed: %s" % (e) )
             elif status_code == 400:
-                raise BadUsernameError(f"Login failed: {e}")
+                raise BadUsernameError("Login failed: %s" % (e) )
             elif status_code == 429:
                 raise TooManyRequests()
             elif status_code == 503:
                 raise ProviderError(e)
             else:
-                raise ProviderError(f"Bad status code: {status_code}")
+                raise ProviderError("Bad status code: %s" % (status_code) )
         else:
             try:
                 self.user_token = r.json()[u"token"]
@@ -136,7 +136,7 @@ class OpenSubtitlesProvider(object):
             logging(r.request.headers)
             r.raise_for_status()
         except (ConnectionError, Timeout, ReadTimeout), e:
-            raise ServiceUnavailable(f"Unknown Error, empty response: {e.status_code}: {e!r}")
+            raise ServiceUnavailable("Unknown Error, empty response: %s: %s" % (e.status_code, e!r) )
         except HTTPError, e:
             status_code = e.response.status_code
             if status_code == 429:
@@ -144,7 +144,7 @@ class OpenSubtitlesProvider(object):
             elif status_code == 503:
                 raise ProviderError(e)
             else:
-                raise ProviderError(f"Bad status code: {status_code}")
+                raise ProviderError("Bad status code: %s" % (status_code) )
 
         try:
             result = r.json()
@@ -153,7 +153,7 @@ class OpenSubtitlesProvider(object):
         except ValueError:
             raise ProviderError(u"Invalid JSON returned by provider")
         else:
-            logging(f"Query returned {len(result['data'])} subtitles")
+            logging("Query returned %s subtitles" % (len(result['data'])) )
 
         if len(result[u"data"]):
             return result[u"data"]
@@ -170,7 +170,7 @@ class OpenSubtitlesProvider(object):
 #               raise AuthenticationError("Unable to authenticate.")
 #           except (ServiceUnavailable, TooManyRequests, ProviderError, ValueError) as e:
 #               logging("Unable to obtain an authentication token.")
-#               raise ProviderError(f"Unable to obtain an authentication token: {e}")
+#               raise ProviderError("Unable to obtain an authentication token: %s" % (e) )
 #       if self.user_token == "":
 #           logging("Unable to obtain an authentication token.")
 #           #raise ProviderError("Unable to obtain an authentication token")
@@ -188,18 +188,18 @@ class OpenSubtitlesProvider(object):
                 raise BadUsernameError(u"Bad username. Email instead of username. ")
             except (ServiceUnavailable, TooManyRequests, ProviderError, ValueError), e:
                 logging(u"Unable to obtain an authentication token.")
-                raise ProviderError(f"Unable to obtain an authentication token: {e}")
+                raise ProviderError("Unable to obtain an authentication token: %s" % (e) )
         elif self.user_token is None:
             logging(u"No cached token, but username or password is missing. Proceeding with free downloads.")
         if self.user_token == u"":
             logging(u"Unable to obtain an authentication token.")
             #raise ProviderError("Unable to obtain an authentication token")            
             
-            logging(f"user token is {self.user_token}")
+            logging("user token is %s" % (self.user_token) )
 
         params = query_to_params(query, u"OpenSubtitlesDownloadRequest")
 
-        logging(f"Downloading subtitle {params['file_id']!r} ")
+        logging("Downloading subtitle %s " % (params['file_id']!r) )
 
         # build download request
         download_url = API_URL + API_DOWNLOAD
@@ -214,19 +214,19 @@ class OpenSubtitlesProvider(object):
             logging(r.url)
             r.raise_for_status()
         except (ConnectionError, Timeout, ReadTimeout), e:
-            raise ServiceUnavailable(f"Unknown Error, empty response: {e.status_code}: {e!r}")
+            raise ServiceUnavailable("Unknown Error, empty response: %s: %s" % (e.status_code, e!r) )
         except HTTPError, e:
             status_code = e.response.status_code
             if status_code == 401:
-                raise AuthenticationError(f"Login failed: {e.response.reason}")
+                raise AuthenticationError("Login failed: %s" % (e.response.reason) )
             elif status_code == 429:
                 raise TooManyRequests()
             elif status_code == 406:
-                raise DownloadLimitExceeded(f"Daily download limit reached: {e.response.reason}")
+                raise DownloadLimitExceeded("Daily download limit reached: %s" % (e.response.reason) )
             elif status_code == 503:
                 raise ProviderError(e)
             else:
-                raise ProviderError(f"Bad status code: {status_code}")
+                raise ProviderError("Bad status code: %s" % (status_code) )
 
         try:
             subtitle = r.json()
@@ -239,6 +239,6 @@ class OpenSubtitlesProvider(object):
             subtitle[u"content"] = res.content
 
             if not subtitle[u"content"]:
-                logging(f"Could not download subtitle from {subtitle.download_link}")
+                logging("Could not download subtitle from %s" % (subtitle.download_link) )
 
         return subtitle
