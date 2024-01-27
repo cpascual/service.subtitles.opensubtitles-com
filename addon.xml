@@ -4,7 +4,7 @@
        version="1.0.4"
        provider-name="amet, opensubtitles, juokelis, opensubtitlesdev">
 	<requires>
-		<import addon="xbmc.python" version="3.0.0"/>
+		<import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.requests" version="2.25.1+matrix.1"/>
 	</requires>
 	<extension point="xbmc.subtitle.module"
