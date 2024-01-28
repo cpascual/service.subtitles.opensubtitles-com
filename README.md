@@ -1,7 +1,8 @@
-# (WIP) Python2 backport of ...
+# (Unofficial) Python2 backport of OpenSubtitles.com KODI add-on
 
-OpenSubtitles.com KODI add-on
-=============================
+**IMPORTANT NOTE**: This is an unofficial backport of [OpenSubtitles.com](https://github.com/opensubtitlesdev/service.subtitles.opensubtitles-com). The official add-on requires python3 ([so it does not work on Kodi v<19](https://github.com/opensubtitlesdev/service.subtitles.opensubtitles-com/issues/2) ). This backport to python 2 *works for me* on a Kodi Leia (v18).
+
+
 Search and download subtitles for movies and TV-Series from OpenSubtitles.com. Search in 75 languages, 4.000.000+ subtitles, daily updates.
 
 REST API implementation based on tomburke25 [python-opensubtitles-rest-api](https://github.com/tomburke25/python-opensubtitles-rest-api)                            
