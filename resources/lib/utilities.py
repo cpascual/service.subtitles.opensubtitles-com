@@ -44,4 +44,6 @@ def get_params(string=u""):
 
 
 def normalize_string(str_):
-    return unicodedata.normalize(u"NFKD", str_)
+    return unicodedata.normalize(
+        'NFKD', unicode(unicode(str_, 'utf-8'))
+        ).encode('ascii','ignore')
