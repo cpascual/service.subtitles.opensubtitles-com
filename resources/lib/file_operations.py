@@ -55,7 +55,9 @@ def hash_file(file_path, rar):
     log(__name__, u"Hash Standard file")
     long_long_format = u"q"  # long long
     byte_size = struct.calcsize(long_long_format)
-    with xbmcvfs.File(file_path) as f:
+        
+    try:
+        f = xbmcvfs.File(file_path)
         file_size = f.size()
         hash_ = file_size
 
@@ -65,7 +67,9 @@ def hash_file(file_path, rar):
         buffer = f.readBytes(65536)
         f.seek(max(0, file_size - 65536), 0)
         buffer += f.readBytes(65536)
+    finally:
         f.close()
+
 
     for x in xrange(int(65536 / byte_size) * 2):
         size = x * byte_size
