@@ -10,6 +10,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 import xbmcvfs
+import xbmc
 
 from resources.lib.data_collector import get_language_data, get_media_data, get_file_path, convert_language, \
     clean_feature_release_name, get_flag
@@ -23,8 +24,8 @@ from io import open
 __addon__ = xbmcaddon.Addon()
 __scriptid__ = __addon__.getAddonInfo(u"id")
 
-__profile__ = xbmcvfs.translatePath(__addon__.getAddonInfo(u"profile"))
-__temp__ = xbmcvfs.translatePath(os.path.join(__profile__, u"temp", u""))
+__profile__ = xbmc.translatePath(__addon__.getAddonInfo(u"profile"))
+__temp__ = xbmc.translatePath(os.path.join(__profile__, u"temp", u""))
 
 if xbmcvfs.exists(__temp__):
     shutil.rmtree(__temp__)
