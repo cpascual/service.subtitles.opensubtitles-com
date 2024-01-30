@@ -1,0 +1,27 @@
+name: Publish a Github release
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]*"
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Publish release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install kodi-addon-submitter
+        run: pip install git+https://github.com/romanvm/kodi-addon-submitter.git
+      - name: Create an installable ZIP
+        run: submit-addon -z service.subtitles.opensubtitles-com
+      - name: Publish release
+        uses: ghalactic/github-release-from-tag@v5
+        with:
+          generateReleaseNotes: "true"
+          assets: |
+            - path: service.subtitles.opensubtitles-com-*.zip
+      - name: Submit to the official Kodi repo
+        run: submit-addon -r repo-plugins -b leia --pull-request service.subtitles.opensubtitles-com
