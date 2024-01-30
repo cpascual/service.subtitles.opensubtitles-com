@@ -7,6 +7,10 @@ Search and download subtitles for movies and TV-Series from OpenSubtitles.com. S
 
 REST API implementation based on tomburke25 [python-opensubtitles-rest-api](https://github.com/tomburke25/python-opensubtitles-rest-api)                            
 
+
+v1.0.4+leia.1 (2024-01-30)
+- Backport v1.0.4 to Kodi Leia (by cpascual)
+
 v1.0.4 (2024-01-15)
 - Sanitize language query
 - Improved sorting
