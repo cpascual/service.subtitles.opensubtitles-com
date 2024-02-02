@@ -9,7 +9,7 @@ REST API implementation based on tomburke25 [python-opensubtitles-rest-api](http
 
 
 v1.0.4+leia.1 (2024-01-30)
-- Backport v1.0.4 to Kodi Leia (by cpascual)
+- Backport v1.0.4 to Kodi Leia (forked by cpascual)
 
 v1.0.4 (2024-01-15)
 - Sanitize language query
